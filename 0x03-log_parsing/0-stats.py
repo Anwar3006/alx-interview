@@ -1,34 +1,61 @@
 import re
 from collections import Counter
-# open log file for reading.,
 
 
+filename = ''
 def reader(filename):
     """
     function opens log files for reading
     """
     with open(filename) as f:
         log = f.read()
+        return log
 
-        regexp_IP = r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}'
-        regexp_StatusCode = r'\bHTTP/\d\.\d"\s(\d+)'
-        regexp_ResponseSize = r'\bHTTP/\d\.\d"\s\d+\s(\d+)'
 
-        IP_list = re.findall(regexp_IP, log)
-        StatusCode_list = re.findall(regexp_StatusCode, log)
-        ResponseSize_list = re.findall(regexp_ResponseSize, log)
-
-        print(IP_list)
-        print(StatusCode_list)
-        print(ResponseSize_list)
-    
-def count(ip_list):
+def count(list):
     """
-    count the occurence of ip addresses
+    count the occurence of items in list; return a dictionary
     """
-    return Counter(ip_list)
+    return Counter(list)
+
+
+def perform_regex(regexp):
+    """
+    perform regex on file
+    """
+    readFile = reader(filename)
+    return re.findall(regexp, readFile)
+
+
+def get_status_code():
+    """
+    get the Response size from the log file
+    """
+    regexp_StatusCode = r'\bHTTP/\d\.\d"\s(\d+)'
+    StatusCode_list = perform_regex(regexp_StatusCode)
+    result = count(StatusCode_list)
+
+    for key in result:
+        print(f"{key}: {result[key]}")
+
+
+def get_response_size():
+    """
+    get the Response size from the log file
+    """
+    regexp_ResponseSize = r'\bHTTP/\d\.\d"\s\d+\s(\d+)'
+    ResponseSize_list = perform_regex(regexp_ResponseSize)
+
+    result = 0
+    for item in ResponseSize_list:
+        result += int(item)
+        print(result)
+
 
 
 if __name__ == "__main__":
-    reader('accesslog.log')
-    
+    filename = 'apachelog.log'
+    reader(filename)
+    # get_response_size()
+
+    get_status_code()
