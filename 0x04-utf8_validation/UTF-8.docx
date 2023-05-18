@@ -1,0 +1,49 @@
+ASCII encoding - UTF encoding
+
+
+ASCII (American Standard Code for Information Interchange):
+Common character encoding format for text data in computers. We use this alot especially to convert
+any text character to binary example 'A' in ASCII is 65 and in Binary is {01 00 00 01}
+The binary representation of the ascii value is 7-bits with a leading 0.
+The Most Significant bit is 0 for American characters giving it 128 possible ways to represent Ascii values
+but this wasn't enough to represent other characters from other languages.
+
+Extended ASCII was introduced where out of the 8-bit with only 7-bit being used they would use all
+8-bits and increase capacity from 128 to 256 to accommodate other language characters but this still
+wasn't enough; what about Asian languages? Various African languages? Arabic? Greek? etc
+
+Unicode Code Points was introduced to cater for all the previous challenges. Unicode code Points isn't
+an encoding format but rather a way to map various language characters to their binary representations.
+The binary pattern starts from 0 to 0x10FFFF: this is a range from 0 to 1,114,112
+Unicode Code Points discarded Extended ASCII
+
+The format of the UCP: U+(hex rep of value) example 'A' in Unicode is U+41(UTF-8) or U+0041(UTF-16)
+Don't get confused: 'A' in Unicode is U+0x41 the 0x41 is the hex representation of 'A' while 65 is the
+Binary representation
+
+ASCII is still used, infact the first 128 binary pattern from the Unicode Code Points is ASCII-to-Binary representations
+
+1 byte = 8 bits
+x - represents the Binary representation of the Unicode value
+A unique identifier for all 1 byte UTF-8 is that they start with a 0xxxxxxx effectively,
+they are just ASCII encoding
+1 byte UTF-8 is that they start with a 0xxxxxxx = you get 128(0 - 127) bits to work with(2e7 - 1)
+2 byte UTF-8 will start with 110xxxxx 10xxxxxx = 2048(0 - 2047) bits to work with(2e11 - 1)
+3 byte UTF-8 will start with 1110xxxx 10xxxxxx 10xxxxxx =  65536(0 - 65535) bits to work with(2e16 - 1)
+4 byte UTF-8 will start with 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx = 2097152 (0 - 2097151) bits to work with(2e21 - 1)
+
+lets work out something:
+pi(3.1415926535) in Unicode = U+03C0
+Convert to Binary:
+        U+03C0
+0 = 0000
+3 = 0011
+C = 1100
+0 = 0000
+U+03C0 = 0000 0011 1100 0000
+Count from the lsb to the msb in this case its from 0 on the rightmost to the second 1 in the 3rd byte from the right
+that makes 10 digits thus this will fit in 2byte UTF-8 because it is bigger than 7-bits
+so to fill: [11001111] [10000000]
+we arent done; gotta represent the above in UTF-8: 1100 1111 1000 0000
+1100 - C     1111 = F     1000 = 8    0000 = 0
+Thus the UTF-8 representation of pi is CF80 which is gotten from the Unicode of pi(U+03C0)
