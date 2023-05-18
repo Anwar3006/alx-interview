@@ -9,7 +9,6 @@ def validUTF8(data: List(int)) -> bool:
     """
     Check if elements in array:data constitute a valid UTF-8 encoding
     """
-    # data elements converted to binary and sliced to 4 MSB
     Sliced_Binary = slice_it(convert_to_binary(data))
 
     if Sliced_Binary[0].startswith('01'):
