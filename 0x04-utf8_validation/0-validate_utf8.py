@@ -27,7 +27,6 @@ def validUTF8(data: List(int)) -> bool:
     return False
 
 
-# create function to convert integers to binary an store ina new array
 def convert_to_binary(array: List[int]) -> List[str]:
     """
     Converts Array elements to their binary representation
@@ -41,8 +40,6 @@ def convert_to_binary(array: List[int]) -> List[str]:
     return new_list
 
 
-# slice array to 4th index; take sliced array and slice elements to 4th digit
-# check if first entry is 1byte 2byte 3byte or 4byte utf-8
 def slice_it(array: List[str]) -> List[str]:
     """
     Slice array to 4th element and slice new array elements to 4th digit
