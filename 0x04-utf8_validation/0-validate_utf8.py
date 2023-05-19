@@ -1,7 +1,7 @@
 #!/usr/bin/python3
-# """
-# UTF-8 Validation Function
-# """
+"""
+UTF-8 Validation Function
+"""
 from typing import List
 
 
