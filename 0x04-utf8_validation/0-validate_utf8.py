@@ -5,7 +5,7 @@ UTF-8 Validation Function
 from typing import List
 
 
-def validUTF8(data: List(int)) -> bool:
+def validUTF8(data: List[int]) -> bool:
     """
     Check if elements in array:data constitute a valid UTF-8 encoding
     """
