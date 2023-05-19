@@ -9,13 +9,20 @@ def validUTF8(data):
     """
     Checks if a list of integers are valid UTF-8 codepoints.
     """
-    Binary = convert_to_binary(data)
+    #Converts Array elements to their binary representation
+    Binary = [] 
+    for value in data:
+        if len(f"{value:b}") < 8:
+            Binary.append('0' + f"{value:b}")
+        else:
+            Binary.append(f"{value:b}")
 
     #Slice array to 4th element and slice new array elements to 4th digit
     SlicedList = []
     for element in Binary[:4]:
         SlicedList.append(element[:4])
 
+    # Perform comparisons
     if SlicedList[0].startswith('01'):
         return True
     if SlicedList[0].startswith(
@@ -29,23 +36,3 @@ def validUTF8(data):
             and SlicedList[3].startswith('10'):
         return True
     return False
-
-
-def convert_to_binary(array):
-    """
-    Converts Array elements to their binary representation
-    """
-    new_list = []
-    for value in array:
-        if len(f"{value:b}") < 8:
-            new_list.append('0' + f"{value:b}")
-        else:
-            new_list.append(f"{value:b}")
-    return new_list
-
-
-# def slice_it(array):
-#     """
-#     Slice array to 4th element and slice new array elements to 4th digit
-#     """
-#     new_list = []
