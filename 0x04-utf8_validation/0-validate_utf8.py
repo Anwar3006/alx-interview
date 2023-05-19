@@ -1,11 +1,14 @@
 #!/usr/bin/python3
-"""UTF-8 validation module.
+"""
+UTF-8 Validation
 """
 
 
-def validUTF8(data):
-    """Checks if a list of integers are valid UTF-8 codepoints.
-    See <https://datatracker.ietf.org/doc/html/rfc3629#page-4>
+def validUTF8(data) -> bool:
+    """
+    Returns True if data is a valid UTF-8 encoding, else return False
+    :param data:
+    :return:
     """
     #Converts Array elements to their binary representation
     Binary = [] 
