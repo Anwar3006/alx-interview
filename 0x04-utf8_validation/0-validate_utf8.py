@@ -1,49 +1,61 @@
 #!/usr/bin/python3
-"""
-UTF-8 validation module
-Determines if a given data set represents a valid UTF-8 encoding
+"""UTF-8 validation module.
 """
 
 
 def validUTF8(data):
+    """Checks if a list of integers are valid UTF-8 codepoints.
+    See <https://datatracker.ietf.org/doc/html/rfc3629#page-4>
     """
-    Checks if a list of integers are valid UTF-8 codepoints.
-    """
-    Sliced_Binary = slice_it(convert_to_binary(data))
-
-    if Sliced_Binary[0].startswith('01'):
-        return True
-    if Sliced_Binary[0].startswith(
-            '110') and Sliced_Binary[1].startswith('10'):
-        return True
-    if Sliced_Binary[0] == '1110' and Sliced_Binary[1].startswith('10')\
-            and Sliced_Binary[2].startswith('10'):
-        return True
-    if Sliced_Binary[0] == '1111' and Sliced_Binary[1].startswith('10')\
-            and Sliced_Binary[2].startswith('10')\
-            and Sliced_Binary[3].startswith('10'):
-        return True
-    return False
-
-
-def convert_to_binary(array):
-    """
-    Converts Array elements to their binary representation
-    """
-    new_list = []
-    for value in array:
-        if len(f"{value:b}") < 8:
-            new_list.append('0' + f"{value:b}")
+    skip = 0
+    n = len(data)
+    for i in range(n):
+        if skip > 0:
+            skip -= 1
+            continue
+        if type(data[i]) != int or data[i] < 0 or data[i] > 0x10ffff:
+            return False
+        elif data[i] <= 0x7f:
+            skip = 0
+        elif data[i] & 0b11111000 == 0b11110000:
+            # 4-byte utf-8 character encoding
+            span = 4
+            if n - i >= span:
+                next_body = list(map(
+                    lambda x: x & 0b11000000 == 0b10000000,
+                    data[i + 1: i + span],
+                ))
+                if not all(next_body):
+                    return False
+                skip = span - 1
+            else:
+                return False
+        elif data[i] & 0b11110000 == 0b11100000:
+            # 3-byte utf-8 character encoding
+            span = 3
+            if n - i >= span:
+                next_body = list(map(
+                    lambda x: x & 0b11000000 == 0b10000000,
+                    data[i + 1: i + span],
+                ))
+                if not all(next_body):
+                    return False
+                skip = span - 1
+            else:
+                return False
+        elif data[i] & 0b11100000 == 0b11000000:
+            # 2-byte utf-8 character encoding
+            span = 2
+            if n - i >= span:
+                next_body = list(map(
+                    lambda x: x & 0b11000000 == 0b10000000,
+                    data[i + 1: i + span],
+                ))
+                if not all(next_body):
+                    return False
+                skip = span - 1
+            else:
+                return False
         else:
-            new_list.append(f"{value:b}")
-    return new_list
-
-
-def slice_it(array):
-    """
-    Slice array to 4th element and slice new array elements to 4th digit
-    """
-    new_list = []
-    for element in array[:4]:
-        new_list.append(element[:4])
-    return new_list
+            return False
+    return True
