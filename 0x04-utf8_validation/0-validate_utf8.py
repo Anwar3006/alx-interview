@@ -1,11 +1,12 @@
 #!/usr/bin/python3
-'''UTF-8 Validation Function
-'''
+"""
+UTF-8 validation module.
+"""
 
 
 def validUTF8(data):
     """
-    Check if elements in array:data constitute a valid UTF-8 encoding
+    Checks if a list of integers are valid UTF-8 codepoints.
     """
     Sliced_Binary = slice_it(convert_to_binary(data))
 
