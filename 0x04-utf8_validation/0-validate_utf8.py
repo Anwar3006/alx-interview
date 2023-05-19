@@ -1,10 +1,9 @@
 #!/usr/bin/python3
 '''UTF-8 Validation Function
 '''
-from typing import List
 
 
-def validUTF8(data: List[int]) -> bool:
+def validUTF8(data):
     """
     Check if elements in array:data constitute a valid UTF-8 encoding
     """
@@ -25,7 +24,7 @@ def validUTF8(data: List[int]) -> bool:
     return False
 
 
-def convert_to_binary(array: List[int]) -> List[str]:
+def convert_to_binary(array):
     """
     Converts Array elements to their binary representation
     """
@@ -38,7 +37,7 @@ def convert_to_binary(array: List[int]) -> List[str]:
     return new_list
 
 
-def slice_it(array: List[str]) -> List[str]:
+def slice_it(array):
     """
     Slice array to 4th element and slice new array elements to 4th digit
     """
