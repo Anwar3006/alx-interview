@@ -21,7 +21,7 @@ def validUTF8(data):
         return True
     if Sliced_Binary[0] == '1111' and Sliced_Binary[1].startswith('10')\
             and Sliced_Binary[2].startswith('10')\
-            and Sliced_Binary[2].startswith('10'):
+            and Sliced_Binary[3].startswith('10'):
         return True
     return False
 
