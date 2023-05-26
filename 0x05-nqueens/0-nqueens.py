@@ -11,8 +11,8 @@ Result = []
 
 def isSafe(board, row, column):
     """
-    Function checks if the current coordinate is safe for inserting 
-    a Queen by checking from the current coordinate to the left 
+    Function checks if the current coordinate is safe for inserting
+    a Queen by checking from the current coordinate to the left
     diagonals and row
     """
     # for each column check row for presense of Queen
