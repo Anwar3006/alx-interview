@@ -6,7 +6,7 @@ const baseUrl = 'https://swapi.dev/api/films/';
 
 // Function to fetch the characters of a Star Wars movie
 const fetchCharacters = (movieID) => {
-  if (movieID == undefined) return null
+  if (movieID === undefined) return null;
   const fullUrl = baseUrl + movieID;
   request(fullUrl, (error, response, body) => {
     if (error | response.statusCode !== 200) {
@@ -32,8 +32,6 @@ const fetchCharacters = (movieID) => {
 
 // Get Id from Commandline
 const getID = process.argv[2];
-// if (getID == undefined)
-
 
 // pass to function
 fetchCharacters(getID);
