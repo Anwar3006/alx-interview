@@ -1,3 +1,5 @@
+#!/usr/bin/node
+
 const request = require('request');
 
 const baseUrl = 'https://swapi.dev/api/films/';
