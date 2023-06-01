@@ -1,37 +1,25 @@
 #!/usr/bin/node
-
 const request = require('request');
+const API_URL = 'https://swapi-api.hbtn.io/api';
 
-const baseUrl = 'https://swapi.dev/api/films/';
-
-// Function to fetch the characters of a Star Wars movie
-const fetchCharacters = (movieID) => {
-  if (movieID === undefined) return null;
-  const fullUrl = baseUrl + movieID;
-  request(fullUrl, (error, response, body) => {
-    if (error | response.statusCode !== 200) {
-      console.log('Error with request: ', error);
+if (process.argv.length > 2) {
+  request(`${API_URL}/films/${process.argv[2]}/`, (err, _, body) => {
+    if (err) {
+      console.log(err);
     }
+    const charactersURL = JSON.parse(body).characters;
+    const charactersName = charactersURL.map(
+      url => new Promise((resolve, reject) => {
+        request(url, (promiseErr, __, charactersReqBody) => {
+          if (promiseErr) {
+            reject(promiseErr);
+          }
+          resolve(JSON.parse(charactersReqBody).name);
+        });
+      }));
 
-    const convertToJson = JSON.parse(body);
-    const characterList = convertToJson.characters;
-
-    characterList.forEach(characterUrl => {
-      request(characterUrl, (error, response, body) => {
-        if (error | response.statusCode !== 200) {
-          console.log('Error with request: ', error);
-        }
-
-        const parseToJson = JSON.parse(body);
-        const getName = parseToJson.name;
-        console.log(getName);
-      });
-    });
+    Promise.all(charactersName)
+      .then(names => console.log(names.join('\n')))
+      .catch(allErr => console.log(allErr));
   });
-};
-
-// Get Id from Commandline
-const getID = process.argv[2];
-
-// pass to function
-fetchCharacters(getID);
+}
